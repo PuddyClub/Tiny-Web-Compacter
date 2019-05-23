@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1" />
+    <meta name="theme-color" content="#adb7d2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="mobile-web-app-capable" content="yes" />
+
+    <title>Tiny Web Compacter</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.min.css"
+        integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha256-YLGeXaapI0/5IgZopewRJcFXomhRMlYYjugPLSyNjTY=" crossorigin="anonymous" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+        integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha256-CjSoeELFOcH0/uxWu6mC/Vlrc1AARqbm/jiiImDGV3s=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"
+        integrity="sha384-tSi+YsgNwyohDGfW/VhY51IK3RKAPYDcj1sNXJ16oRAyDP++K0NCzSCUW78EMFmf"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/livequery/1.1.1/jquery.livequery.min.js"
+        integrity="sha384-zm9muj5jNH5N/S+c0t2kcDKyTnHDNlBzXRgauYPXgwi8hOqBf7D4vSjNMfdUR6ev"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"
+        integrity="sha256-FPJJt8nA+xL4RU6/gsriA8p8xAeLGatoyTjldvQKGdE=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./js/index.js"></script>
+</head>
+
+<body>
+
+    <div class="container my-4">
+
+        <h1>Tiny Web Compacter</h1>
+        <p class="lead">Please. Select your txt file with all the cdn files.</p>
+
+        <h3>Upload</h3>
+        <p>Click here to start the upload</p>
+
+        <div class="input-group mb-3">
+
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+            </div>
+            <div class="custom-file">
+                <input type="file" class="custom-file-input" id="upload" aria-describedby="inputGroupFileAddon01">
+                <label class="custom-file-label" for="upload">Choose file</label>
+            </div>
+            <input type="text" id="uploadname" placeholder="File Name" class="form-control">
+            <select class="custom-select" id="uploadtype">
+                <option value="css">CSS</option>
+                <option value="js" selected>Javascript</option>
+            </select>
+
+        </div>
+
+        <h3>Log Panel</h3>
+        <p>The results from your upload will appear here.</p>
+
+        <div id="log" class="border p-4 my-4" style="height: 500px; overflow-y: auto">
+
+            <font class="text-warning">Nothing</font>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

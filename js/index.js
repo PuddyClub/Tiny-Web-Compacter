@@ -51,7 +51,7 @@ jQuery(function () {
 
             }
 
-            $("#upload").removeAttr('disabled');
+            $("#upload, #uploadtype, #uploadname").removeAttr('disabled');
 
         },
 
@@ -84,7 +84,48 @@ jQuery(function () {
 
                     // Insert Into File
                     tinyProgress.i++;
-                    tinyProgress.file += '\n\n\n\n/*\n\n URL FILE: ' + this.url + '\n\n*/\n\n' + data;
+                    tinyProgress.file += '\n\n\n\n/*\n\n URL FILE: ' + this.url + '\n\n*/\n\n';
+
+                    const tinypath = this.url.substring(0, this.url.lastIndexOf('/') + 1);
+                    console.log(this.url);
+
+                    // Fix CSS Files
+                    if ($("#uploadtype").val() == "css") {
+                        data = data.replace(
+                            /url\s?\((.*?)\)/g, function (e, e2) {
+
+                                // Get Start Text
+                                if (e2.startsWith('"')) {
+                                    e2 = e2.substring(1, e2.length - 1);
+                                    var typeIntro = 1;
+                                } else if (e2.startsWith("'")) {
+                                    e2 = e2.substring(1, e2.length - 1);
+                                    var typeIntro = 2;
+                                }
+
+                                // Fix URL
+                                if (!e2.startsWith('http') && !e2.startsWith('data:')) {
+                                    e2 = tinypath + e2;
+                                }
+
+                                console.log(e2);
+
+                                // Send Result
+                                if (typeIntro == 1) {
+                                    return 'url("' + e2 + '")';
+                                }
+                                else if (typeIntro == 2) {
+                                    return 'url(\'' + e2 + '\')';
+                                } else {
+                                    return 'url(' + e2 + ')';
+                                }
+
+                            }
+                        )
+                    }
+
+                    // Insert into the file
+                    tinyProgress.file += data;
 
                     tinyProgress.logGenerator(
                         'File Success',
@@ -97,6 +138,8 @@ jQuery(function () {
                     } else {
                         tinyProgress.complete();
                     }
+
+                    delete tinypath;
 
                 })
 
@@ -133,7 +176,7 @@ jQuery(function () {
         }
 
         // Freeze the input
-        $(this).attr('disabled', 'diabled');
+        $("#upload, #uploadtype, #uploadname").attr('disabled', 'diabled');
 
         // The Reader
         fr = new FileReader();

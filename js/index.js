@@ -35,6 +35,11 @@ jQuery(function () {
                 var blob = new Blob([tinyProgress.file], { type: "text/plain;charset=utf-8" });
                 saveAs(blob, $("#uploadname").val() + "." + $("#uploadtype").val());
 
+                tinyProgress.logGenerator(
+                    'Congratulations',
+                    $("<font>", { class: "text-success" }).text('All Done ^~^')
+                );
+
                 // Reset Values
                 tinyProgress.i = null;
                 tinyProgress.total = null;
@@ -105,10 +110,12 @@ jQuery(function () {
 
                                 // Fix URL
                                 if (!e2.startsWith('http') && !e2.startsWith('data:')) {
-                                    e2 = tinypath + e2;
+                                    if ($("[name='urltype']:checked").val() == "auto") {
+                                        e2 = tinypath + e2;
+                                    } else if ($("[name='urltype']:checked").val() == "url") {
+                                        e2 = $("#placeurl").val().replace('{autourl}', tinypath) + e2;
+                                    }
                                 }
-
-                                console.log(e2);
 
                                 // Send Result
                                 if (typeIntro == 1) {
@@ -165,6 +172,22 @@ jQuery(function () {
         }
 
     };
+
+    $("#uploadtype").change(function () {
+
+        if ($(this).val() == "css") {
+            $("#placeurl, [name='urltype']").removeAttr('disabled');
+        } else {
+            $("#placeurl, [name='urltype']").attr('disabled', 'disabled');
+        }
+
+    });
+
+    $("[name='urltype']").change(function () {
+
+        console.log($("[name='urltype']:checked").val());
+
+    });
 
     // The Fle Input
     $("#upload").change(function () {

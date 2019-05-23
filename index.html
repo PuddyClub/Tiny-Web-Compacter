@@ -53,10 +53,32 @@
             </div>
             <input type="text" id="uploadname" placeholder="File Name" class="form-control">
             <select class="custom-select" id="uploadtype">
-                <option value="css">CSS</option>
                 <option value="js" selected>Javascript</option>
+                <option value="css">CSS</option>
             </select>
 
+        </div>
+
+        <p>
+            Please enter a URL here. Want to get the original URL? Place on the text: {autourl}
+        </p>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <label class="m-0">
+                        Automatic URL <input value="auto" class="ml-2" name="urltype" type="radio" disabled="disabled" checked>
+                    </label>
+                </div>
+            </div>
+            <div class="input-group-prepend">
+                <div class="input-group-text">
+                    <label class="m-0">
+                        Use this URL <input value="url" class="ml-2" name="urltype" disabled="disabled" type="radio">
+                    </label>
+                </div>
+            </div>
+            <input id="placeurl" type="text" class="form-control" placeholder="URL" disabled="disabled">
         </div>
 
         <h3>Log Panel</h3>

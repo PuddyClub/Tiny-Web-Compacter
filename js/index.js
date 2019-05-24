@@ -31,8 +31,15 @@ jQuery(function () {
 
             try {
 
+                // Select Type
+                if ($("#uploadtype").val() == "css") {
+                    var tinytype = "text/css;charset=utf-8";
+                } else if ($("#uploadtype").val() == "js") {
+                    var tinytype = "application/javascript;charset=utf-8";
+                }
+
                 // Send Download
-                var blob = new Blob([tinyProgress.file], { type: "text/plain;charset=utf-8" });
+                var blob = new Blob([tinyProgress.file], { type: tinytype });
                 saveAs(blob, $("#uploadname").val() + "." + $("#uploadtype").val());
 
                 tinyProgress.logGenerator(
@@ -56,7 +63,8 @@ jQuery(function () {
 
             }
 
-            $("#upload, #uploadtype, #uploadname").removeAttr('disabled');
+            $(checkItems).removeAttr('disabled');
+            checkUpType();
 
         },
 
@@ -174,23 +182,26 @@ jQuery(function () {
     };
 
     // Upload Fixed
-    $("#uploadtype").change(function () {
+    const checkUpType = function () {
 
-        if ($(this).val() == "css") {
+        if ($("#uploadtype").val() == "css") {
             $("#placeurl, [name='urltype']").removeAttr('disabled');
             $("[name='urltype']:checked").trigger('change');
         } else {
             $("#placeurl, [name='urltype']").attr('disabled', 'disabled');
         }
 
-    });
+    };
+
+    const checkItems = "#upload, #uploadtype, #uploadname";
+    $("#uploadtype").change(checkUpType);
 
     // URL Type
     $("[name='urltype']").change(function () {
 
-        if($("[name='urltype']:checked").val() == "url"){
+        if ($("[name='urltype']:checked").val() == "url") {
             $("#placeurl").removeAttr('disabled');
-        } else if($("[name='urltype']:checked").val() == "auto"){
+        } else if ($("[name='urltype']:checked").val() == "auto") {
             $("#placeurl").attr('disabled', 'disabled');
         }
 
@@ -199,37 +210,48 @@ jQuery(function () {
     // The Fle Input
     $("#upload").change(function () {
 
-        // Detector
-        if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
-            alert('The File APIs are not fully supported in this browser.');
-            return;
+        if (this.files[0]) {
+
+            // Detector
+            if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+                alert('The File APIs are not fully supported in this browser.');
+                return;
+            }
+
+            // Freeze the input
+            $("#upload, #uploadtype, #uploadname, [name='urltype'], #placeurl").attr('disabled', 'diabled');
+
+            // The Reader
+            fr = new FileReader();
+            fr.onload = function () {
+
+                $("#log").empty().text('Starting the progress for a ' + $("#uploadtype").val() + ' file...');
+                const items = fr.result.match(URLPARSER);
+                $("#log").prepend(items.length + ' urls found. Starting the download of the files.<br/>');
+
+                // Create Main File
+                tinyProgress.file = '/*\n\n File made by Tiny Web Compacter\n Software made by Jasmin Dreasond\n\n https://github.com/JasminDreasond/Tiny-Web-Compacter\n\n*/';
+
+                // Set Upload Config and start it
+                tinyProgress.total = items.length;
+                tinyProgress.data = items;
+                tinyProgress.i = 0;
+                tinyProgress.fire();
+
+                delete items;
+
+            }
+
+            fr.onerror = function (message) {
+                $("#log").empty().text(message);
+                $(checkItems).removeAttr('disabled');
+                checkUpType();
+            };
+
+            fr.readAsText(this.files[0]);
+            //fr.readAsDataURL(this.files[0]);
+
         }
-
-        // Freeze the input
-        $("#upload, #uploadtype, #uploadname").attr('disabled', 'diabled');
-
-        // The Reader
-        fr = new FileReader();
-        fr.onload = function () {
-
-            $("#log").empty().text('Starting the progress for a ' + $("#uploadtype").val() + ' file...');
-            const items = fr.result.match(URLPARSER);
-            $("#log").prepend(items.length + ' urls found. Starting the download of the files.<br/>');
-
-            // Create Main File
-            tinyProgress.file = '/*\n\n File made by Tiny Web Compacter\n Software made by Jasmin Dreasond\n\n https://github.com/JasminDreasond/Tiny-Web-Compacter\n\n*/';
-
-            // Set Upload Config and start it
-            tinyProgress.total = items.length;
-            tinyProgress.data = items;
-            tinyProgress.i = 0;
-            tinyProgress.fire();
-
-            delete items;
-
-        };
-        fr.readAsText(this.files[0]);
-        //fr.readAsDataURL(this.files[0]);
 
     });
 

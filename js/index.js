@@ -122,24 +122,28 @@ jQuery(function () {
                                     var typeIntro = 2;
                                 }
 
-                                tinyProgress.logGenerator(
-                                    'Coverting',
-                                    $("<font>", { class: "text-info" }).text('Before: ' + e2)
-                                );
+                                
 
                                 // Fix URL
                                 if (!e2.startsWith('http') && !e2.startsWith('data:')) {
+
+                                    tinyProgress.logGenerator(
+                                        'Coverting',
+                                        $("<font>", { class: "text-info" }).text('Before: ' + e2)
+                                    );
+
                                     if ($("[name='urltype']:checked").val() == "auto") {
                                         e2 = tinypath + e2;
                                     } else if ($("[name='urltype']:checked").val() == "url") {
                                         e2 = $("#placeurl").val().replace('{autourl}', tinypath) + e2;
                                     }
-                                }
 
-                                tinyProgress.logGenerator(
-                                    'Coverting',
-                                    $("<font>", { class: "text-info" }).text('After: ' + e2)
-                                );
+                                    tinyProgress.logGenerator(
+                                        'Coverting',
+                                        $("<font>", { class: "text-info" }).text('After: ' + e2)
+                                    );
+
+                                }
 
                                 // Send Result
                                 if (typeIntro == 1) {

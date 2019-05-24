@@ -15,11 +15,11 @@ jQuery(function () {
         logGenerator: function (title, text) {
 
             $("#log").append(
+                $("<br>"),
                 $("<span>").text("<"),
                 $("<strong>").text(title),
                 $("<span>").text("> "),
-                text,
-                $("<br>")
+                text
             );
 
             tinyLogScroll();
@@ -247,7 +247,7 @@ jQuery(function () {
 
                 $("#log").empty().text('Starting the progress for a ' + $("#uploadtype").val() + ' file...');
                 const items = fr.result.match(URLPARSER);
-                $("#log").append(items.length + ' urls found. Starting the download of the files.<br/>');
+                $("#log").append("<br/>"+items.length + ' urls found. Starting the download of the files.');
                 tinyLogScroll();
 
                 // Create Main File

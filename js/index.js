@@ -4,19 +4,25 @@ jQuery(function () {
     // Parser
     const URLPARSER = /(https?:\/\/[^\s]+)/g;
 
+    const tinyLogScroll = function(){
+        $("#log").animate({ scrollTop: $("#log").height() * 50 }, 0);
+    };
+
     // File
     const tinyProgress = {
 
         // Log Generator
         logGenerator: function (title, text) {
 
-            $("#log").prepend(
+            $("#log").append(
                 $("<span>").text("<"),
                 $("<strong>").text(title),
                 $("<span>").text("> "),
                 text,
                 $("<br>")
             );
+
+            tinyLogScroll();
 
         },
 
@@ -116,6 +122,11 @@ jQuery(function () {
                                     var typeIntro = 2;
                                 }
 
+                                tinyProgress.logGenerator(
+                                    'Coverting',
+                                    $("<font>", { class: "text-info" }).text('Before: ' + e2)
+                                );
+
                                 // Fix URL
                                 if (!e2.startsWith('http') && !e2.startsWith('data:')) {
                                     if ($("[name='urltype']:checked").val() == "auto") {
@@ -124,6 +135,11 @@ jQuery(function () {
                                         e2 = $("#placeurl").val().replace('{autourl}', tinypath) + e2;
                                     }
                                 }
+
+                                tinyProgress.logGenerator(
+                                    'Coverting',
+                                    $("<font>", { class: "text-info" }).text('After: ' + e2)
+                                );
 
                                 // Send Result
                                 if (typeIntro == 1) {
@@ -227,7 +243,8 @@ jQuery(function () {
 
                 $("#log").empty().text('Starting the progress for a ' + $("#uploadtype").val() + ' file...');
                 const items = fr.result.match(URLPARSER);
-                $("#log").prepend(items.length + ' urls found. Starting the download of the files.<br/>');
+                $("#log").append(items.length + ' urls found. Starting the download of the files.<br/>');
+                tinyLogScroll();
 
                 // Create Main File
                 tinyProgress.file = '/*\n\n File made by Tiny Web Compacter\n Software made by Jasmin Dreasond\n\n https://github.com/JasminDreasond/Tiny-Web-Compacter\n\n*/';

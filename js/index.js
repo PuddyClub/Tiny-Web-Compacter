@@ -173,19 +173,26 @@ jQuery(function () {
 
     };
 
+    // Upload Fixed
     $("#uploadtype").change(function () {
 
         if ($(this).val() == "css") {
             $("#placeurl, [name='urltype']").removeAttr('disabled');
+            $("[name='urltype']:checked").trigger('change');
         } else {
             $("#placeurl, [name='urltype']").attr('disabled', 'disabled');
         }
 
     });
 
+    // URL Type
     $("[name='urltype']").change(function () {
 
-        console.log($("[name='urltype']:checked").val());
+        if($("[name='urltype']:checked").val() == "url"){
+            $("#placeurl").removeAttr('disabled');
+        } else if($("[name='urltype']:checked").val() == "auto"){
+            $("#placeurl").attr('disabled', 'disabled');
+        }
 
     });
 
